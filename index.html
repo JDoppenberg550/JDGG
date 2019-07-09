@@ -40,7 +40,7 @@
     <script>
         var request =  require('request');
         setInterval (function() {
-            request("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=MSFT&apikey=demo", function(error, response, body) {
+            request("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=MSFT&apikey=QXVT11A6TWPI9LEB", function(error, response, body) {
             body = JSON.parse(body);
             newPrice(body);
         });
