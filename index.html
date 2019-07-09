@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <style>
+      body {
+          background: #222222;
+          color: #eeeeee;
+          font-family: Arial, Helvetica, sans-serif;
+          text-align: center;
+      }
+      .company {
+          font-size: 42px;
+      }
+      .open-price {
+          font-size: 20px;
+      }
+      .the-price {
+          font-size: 35px;
+      }
+      .up {
+          color: green;
+          font-size: 20px
+      }
+      .down {
+          color: red;
+          font-size: 20px
+      }
+      .equals {
+          color: grey;
+          font-size: 20px
+      }
+  </style>
+  <body style="-webkit-app-region: drag">
+    <div class="company" id="company"></div>
+    <div class="open-price" id="open"></div>
+    <div class="the-price" id="price"></div>
+    <div class="up-down" id="priceHistory"></div>
+    <script>
+        var request =  require('request');
+        setInterval (function() {
+            request("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=MSFT&apikey=demo", function(error, response, body) {
+            body = JSON.parse(body);
+            newPrice(body);
+        });
+        }, 1000)
+        var lastPrice;
+        function newPrice(obj) {
+            companyName = obj["Global Quote"]["01. symbol"]
+            openPrice = obj["Global Quote"]["02. open"]
+            currentPrice = obj["Global Quote"]["05. price"];
+            var history = document.getElementById("priceHistory");
+            if (lastPrice<currentPrice) {
+                var newElText = "˄";
+                var wrap = document.createElement("span");
+                wrap.className="up";
+            }
+            else if (lastPrice==newPrice) {
+                var newElText = "=";
+                var wrap = document.createElement("span");
+                wrap.className="equals";
+            }
+            else {
+                var newElText = "˅";
+                var wrap = document.createElement("span");
+                wrap.className="down";
+            }
+            history.appendChild(wrap);
+            var textNode = document.createTextNode(newElText);
+            wrap.appendChild(textNode);
+            var nodeList = history.getElementsByTagName("SPAN").length;
+            if (nodeList==6) {
+                history.children[0].remove();
+            }
+            document.getElementById("company").innerHTML = companyName;
+            document.getElementById("open").innerHTML = openPrice;
+            document.getElementById("price").innerHTML = currentPrice;
+            lastPrice = currentPrice;
+        }
+    </script>
+  </body>
+</html>

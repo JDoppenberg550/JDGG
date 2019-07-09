@@ -1,0 +1,18 @@
+{
+  "name": "simpulshares",
+  "version": "1.0.0",
+  "description": "Stock market tracker for Greg",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . SimpulShares --platform=win32 --arch=x64 --app-version=1.0.0 --overwrite" 
+  },
+  "author": "Jeroen Doppenberg",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^5.0.6",
+    "electron-packager": "^14.0.1",
+    "electron-prebuilt": "^1.4.13",
+    "request": "^2.88.0"
+  }
+}
