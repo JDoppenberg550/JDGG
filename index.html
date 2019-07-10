@@ -40,11 +40,11 @@
     <script>
         var request =  require('request');
         setInterval (function() {
-            request("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=MSFT&apikey=QXVT11A6TWPI9LEB", function(error, response, body) {
+            request("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=RDSA.AS&apikey=LLC7AO63A8UN7AEW", function(error, response, body) {
             body = JSON.parse(body);
             newPrice(body);
         });
-        }, 1000)
+        }, 20000)
         var lastPrice;
         function newPrice(obj) {
             companyName = obj["Global Quote"]["01. symbol"]
@@ -56,7 +56,7 @@
                 var wrap = document.createElement("span");
                 wrap.className="up";
             }
-            else if (lastPrice==newPrice) {
+            else if (lastPrice==currentPrice) {
                 var newElText = "=";
                 var wrap = document.createElement("span");
                 wrap.className="equals";
@@ -70,12 +70,24 @@
             var textNode = document.createTextNode(newElText);
             wrap.appendChild(textNode);
             var nodeList = history.getElementsByTagName("SPAN").length;
-            if (nodeList==6) {
+            if (nodeList==11) {
                 history.children[0].remove();
             }
             document.getElementById("company").innerHTML = companyName;
             document.getElementById("open").innerHTML = openPrice;
             document.getElementById("price").innerHTML = currentPrice;
+            if (openPrice<currentPrice) {
+                //append ^
+                document.getElementById("price").style.color = "green";
+            }
+            else if (openPrice==currentPrice) {
+                //append =
+                document.getElementById("price").style.color = "white";
+            }
+            else {
+                //append ˅
+                document.getElementById("price").style.color = "red";
+            }
             lastPrice = currentPrice;
         }
     </script>
